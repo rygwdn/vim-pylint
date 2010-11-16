@@ -66,17 +66,17 @@ endif
 
 " We should echo filename because pylint truncates .py
 " If someone know better way - let me know :) 
-CompilerSet makeprg=(echo\ '[%]';\ pylint\ -r\ y\ %)
+CompilerSet makeprg=python\ `which\ pylint`\ -r\ y\ -i\ y\ -f\ parseable\ -d\ I\ %
 
 " We could omit end of file-entry, there is only one file
 " %+I... - include code rating information
 " %-G... - remove all remaining report lines from quickfix buffer
-CompilerSet efm=%+P[%f],%t:\ %#%l:%m,%Z,%+IYour\ code%m,%Z,%-G%.%#
+CompilerSet efm=%f:%l:%m,%Z,%+IYour\ code%m,%Z,%-G%.%#
 
 if g:pylint_onwrite
     augroup python
         au!
-        au BufWritePost * call Pylint(1)
+        au BufWritePost *.py call Pylint(1)
     augroup end
 endif
 
